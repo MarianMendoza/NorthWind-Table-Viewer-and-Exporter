@@ -1,0 +1,25 @@
+﻿<Page x:Class="NW_Table_Viewer.RegisterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:NW_Table_Viewer"
+      mc:Ignorable="d" 
+      MinHeight="845"
+      MinWidth="1327"
+      Title="RegisterPage">
+
+    <Grid>
+
+        <Label Foreground="Black" FontSize ="72" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,222,0,0">REGISTER</Label>
+        <TextBox x:Name="UserNameBox" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Top" FontSize="32" Width="272" Margin="0,353,0,0">Username</TextBox>
+        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="32" Width="272" Margin="0,423,0,0"/>
+        <PasswordBox x:Name="ConfirmPasswordBox" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="32" Margin="0,485,0,0" Width="272"/>
+        <Button x:Name="RegisterAccountButton" Content="Sign Up" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,570,0,0" Width="272" Click="RegisterAccountButton_Click"/>
+        <Label x:Name="UsernameError"  Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,644,0,0" Visibility="Hidden">Account Username has already been taken!</Label>
+        <Label x:Name="PasswordMatchError" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,644,0,0" Visibility="Hidden">Passwords Do Not Match</Label>
+
+        <Label Foreground="Black" FontSize="12" Margin="591,765,591,55">Already Have An Account?</Label>
+        <Button x:Name="LoginToButton" Content="Login" HorizontalAlignment="Center" Margin="0,795,0,0" VerticalAlignment="Top" Click="LoginToButton_Click"/>
+    </Grid>
+</Page>

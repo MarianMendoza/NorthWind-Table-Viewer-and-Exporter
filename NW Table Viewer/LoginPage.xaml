@@ -1,0 +1,25 @@
+﻿<Page x:Class="NW_Table_Viewer.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:NW_Table_Viewer"
+      mc:Ignorable="d" 
+      MinHeight="845"
+      MinWidth="1327"
+      Title="LoginPage">
+
+    <Grid Background="White">
+
+
+        <Label Foreground="Black" FontSize ="72" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,216,0,0" Grid.Column="1" Width="254">LOG IN</Label>
+        <TextBox x:Name="UserNameBox" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Top" FontSize="32" Width="272" Margin="0,351,0,0">Username</TextBox>
+        <PasswordBox x:Name="passwordBox" VerticalAlignment="Top" FontSize="32" Margin="0,436,0,0" Width="272"/>
+        <Label x:Name="CredentialsError" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,593,0,0" Visibility="Hidden">Account Credentials Are Incorrect!</Label>
+
+        <Button x:Name="LoginButton" Content="Login" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,521,0,0" Width="272" Click="LoginButton_Click"/>
+        <Label Foreground="Black" FontSize="12" Margin="586,745,581,70">Don't have an account yet?</Label>
+        <Button x:Name="RegisterToButton" Content="Register" HorizontalAlignment="Center" Margin="0,793,0,0" VerticalAlignment="Top" Click="RegisterToButton_Click"/>
+
+    </Grid>
+</Page>
