@@ -65,6 +65,13 @@ namespace NW_Table_Viewer
                     ColHidden = new string[] { "BirthDate", "Region","Photo", "Notes","PhotoPath" };
 
                     break;
+                case "Orders":
+                    SelectedTable.Columns.Clear();
+
+                    query = "SELECT * FROM [master].[dbo].[Orders]";
+                    ColNames = new string[] { "OrderID", "CustomerID", "EmployeeID", "OrderDate", "RequriedDate", "ShippingDate", "ShipVia", "Freight", "ShipName", "ShipAddress", "ShipCity", "ShipRegion", "ShipPostalCode", "ShipCountry" };
+                    ColHidden = new string[] { "Freight", "ShipRegion" };
+                    break;
                 default:
                     query = "SELECT * FROM [master].[dbo].[Customers]";
                     ColNames = new string[] { "CustomerID", "CompanyName", "ContactName", "ContactName", "ContactTitle", "Address", "City", "Region", "PostalCode", "Country", "Phone", "Fax" };
@@ -209,6 +216,7 @@ namespace NW_Table_Viewer
         {
             TableComboBox.Items.Add("Customers");
             TableComboBox.Items.Add("Employees");
+            TableComboBox.Items.Add("Orders");
            
         }
 
@@ -391,6 +399,134 @@ namespace NW_Table_Viewer
 
 
             }
+        }
+
+        private void SelectCheck_Checked(object sender, RoutedEventArgs e)
+        {
+            MainTable.SelectAll();
+        }
+
+        private void SelectCheck_Unchecked(object sender, RoutedEventArgs e)
+        {
+            MainTable.UnselectAll();
+        }
+
+        private void ColumnSizeComboBox_Initialized(object sender, EventArgs e)
+        {
+            ColumnSizeComboBox.Items.Add("1");
+            ColumnSizeComboBox.Items.Add("2");
+            ColumnSizeComboBox.Items.Add("3");
+            ColumnSizeComboBox.Items.Add("default");
+
+
+        }
+
+        private void ColumnSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int selectedColumnSize = ColumnSizeComboBox.SelectedIndex + 1;
+            switch (selectedColumnSize)
+            {
+                case 1:
+                    MainTable.RowHeight = 15;
+                    MainTable.FontSize = 11;
+                    break;
+                case 2:
+                    MainTable.RowHeight = 20;
+                    MainTable.FontSize = 15;
+                    break;
+                case 3:
+                    MainTable.RowHeight = 30;
+                    MainTable.FontSize = 17;
+                    break;
+                default:
+                    MainTable.RowHeight = 21;
+                    MainTable.FontSize = 14;
+                    break;
+            }
+        }
+
+        private void SearchDataGrid_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchString = SearchDataGrid.Text;
+            SqlConnection con = new SqlConnection();
+            con.ConnectionString = ConfigurationManager.ConnectionStrings["Con"].ConnectionString;
+            con.Open();
+
+            try
+            {
+
+                SqlCommand cmd = new SqlCommand();
+                switch (TableComboBox.SelectedItem.ToString())
+                {
+                    case "Employees":
+
+                        Debug.WriteLine(TableComboBox.SelectedItem.ToString());
+
+                        cmd.CommandText = @"SELECT *
+                        FROM [master].[dbo].[Employees]
+                        WHERE 
+                            [EmployeeID] LIKE @searchText OR 
+                            [LastName] LIKE @searchText OR 
+                            [FirstName] LIKE @searchText OR
+                            [Title] LIKE @searchText OR
+                            [TitleOfCourtesy] LIKE @searchText OR
+                            [BirthDate] LIKE @searchText OR
+                            [HireDate] LIKE @searchText OR
+                            [Address] LIKE @searchText OR
+                            [City] LIKE @searchText OR
+                            [Region] LIKE @searchText OR
+                            [PostalCode] LIKE @searchText OR
+                            [Country] LIKE @searchText OR
+                            [HomePhone] LIKE @searchText OR
+                            [Extension] LIKE @searchText OR
+                            [Photo] LIKE @searchText OR
+                            [Notes] LIKE @searchText OR
+                            [ReportsTo] LIKE @searchText OR
+                            [PhotoPath] LIKE @searchText";
+                        cmd.Parameters.AddWithValue("@searchText", $"%{searchString}%");
+
+                        break;
+
+
+                    default:
+
+                        Debug.WriteLine("Customers Search");
+
+                        cmd.CommandText = @"SELECT *
+                    FROM [master].[dbo].[Customers]
+                    WHERE 
+                        [CustomerID] LIKE @searchText OR 
+                        [CompanyName] LIKE @searchText OR 
+                        [ContactName] LIKE @searchText OR
+                        [ContactTitle] LIKE @searchText OR
+                        [Address] LIKE @searchText OR
+                        [City] LIKE @searchText OR
+                        [Region] LIKE @searchText OR
+                        [PostalCode] LIKE @searchText OR
+                        [Country] LIKE @searchText OR
+                        [Phone] LIKE @searchText OR
+                        [Fax] LIKE @searchText";
+                        cmd.Parameters.AddWithValue("@searchText", $"%{searchString}%");
+
+                        Debug.Write(cmd.CommandText);
+                        break;
+       
+            }
+                cmd.Connection = con;
+                MainDataTable.Clear();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(MainDataTable);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
         }
     }
 }

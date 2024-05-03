@@ -15,9 +15,9 @@
             <Button x:Name="LogoutButton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1236,41,0,0" Click="LogoutButton_Click"  >LOGOUT</Button>
 
             <ComboBox x:Name="TableComboBox" HorizontalAlignment="Left" Margin="322,87,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TableComboBox_SelectionChanged" Initialized="TableComboBox_Initialized" />
-            <TextBox x:Name="SearchDataGrid" HorizontalAlignment="Left" Margin="488,85,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="624" Height="24" />
+            <TextBox x:Name="SearchDataGrid" HorizontalAlignment="Left" Margin="488,85,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="624" Height="24" TextChanged="SearchDataGrid_TextChanged" />
             <ComboBox x:Name="ColumnsVisibilityComboBox" HorizontalAlignment="Left" Margin="1140,87,0,0" VerticalAlignment="Top" Width="78"/>
-            <ComboBox x:Name="ColumnSizeComboBox" HorizontalAlignment="Left" Margin="1236,87,0,0" VerticalAlignment="Top" Width="50"/>
+            <ComboBox x:Name="ColumnSizeComboBox" HorizontalAlignment="Left" Margin="1236,87,0,0" VerticalAlignment="Top" Width="50" Initialized="ColumnSizeComboBox_Initialized" SelectionChanged="ColumnSizeComboBox_SelectionChanged"/>
 
         <DataGrid x:Name="MainTable" CanUserAddRows="False" AutoGenerateColumns="False" Margin="40,120,41,255" ColumnWidth="*" SelectionChanged="MainTable_SelectionChanged"/>
 
@@ -27,7 +27,7 @@
             <Button x:Name="ExportButton" Content="Export" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1018,593,0,0" Click="ExportButton_Click"/>
             <CheckBox x:Name="PdfCheck" Content=".PDF" HorizontalAlignment="Left" Margin="1068,595,0,0" VerticalAlignment="Top"/>
             <CheckBox x:Name="CSVCheck" Content=".CSV" HorizontalAlignment="Left" Margin="1117,595,0,0" VerticalAlignment="Top"/>
-            <CheckBox x:Name="SelectCheck" Content="Select Whole Table" HorizontalAlignment="Left" Margin="1167,595,0,0" VerticalAlignment="Top"/>
+            <CheckBox x:Name="SelectCheck" Content="Select Whole Table" HorizontalAlignment="Left" Margin="1167,595,0,0" VerticalAlignment="Top" Checked="SelectCheck_Checked" Unchecked="SelectCheck_Unchecked"/>
 
 
 
