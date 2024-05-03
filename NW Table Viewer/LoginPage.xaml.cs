@@ -41,7 +41,7 @@ namespace NW_Table_Viewer
                 CredentialsError.Visibility = Visibility.Hidden;
 
                 SqlConnection con = new SqlConnection();
-                con.ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+                con.ConnectionString = ConfigurationManager.ConnectionStrings["Con"].ConnectionString;
                 con.Open();
                 string searchUserData = "SELECT COUNT(*) FROM [LoginDB].[dbo].[tblUser] WHERE UserName = @UserName and Password=@Password";
 
@@ -58,7 +58,7 @@ namespace NW_Table_Viewer
                     passwordBox.Password = "";
                 if (Count > 0)
                 {
-                    this.NavigationService.Navigate(new MainDashPage());
+                    this.NavigationService.Navigate(new HomePage());
                     con.Close();
 
                 }

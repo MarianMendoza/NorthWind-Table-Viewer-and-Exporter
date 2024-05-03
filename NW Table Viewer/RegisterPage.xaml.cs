@@ -44,7 +44,7 @@ namespace NW_Table_Viewer
                 ConfirmPasswordBox.Password = "";
 
                 SqlConnection con = new SqlConnection();
-                con.ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+                con.ConnectionString = ConfigurationManager.ConnectionStrings["Con"].ConnectionString;
                 con.Open();
                 string addUserData = "INSERT INTO [LoginDB].[dbo].[tblUser] VALUES(@UserName, @Password)";
                 string searchUserData = "SELECT COUNT(*) FROM [LoginDB].[dbo].[tblUser] WHERE UserName = @UserName and Password=@Password";
