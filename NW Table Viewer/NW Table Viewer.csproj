@@ -10,6 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\logo.png" />
+    <None Remove="Resources\logoWoText.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\logoWoText.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CSVLibraryAK" Version="1.1.4" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="iTextSharp" Version="5.5.13.3" />
@@ -21,6 +30,10 @@
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\logo.png" />
   </ItemGroup>
 
 </Project>

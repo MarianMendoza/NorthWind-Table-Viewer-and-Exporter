@@ -5,21 +5,23 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:NW_Table_Viewer"
       mc:Ignorable="d" 
+       FontFamily="Tw Cen MT"
       MinHeight="845"
       MinWidth="1327"
       Title="RegisterPage">
 
-    <Grid>
+    <Grid Background="{DynamicResource BackgroundColour}">
+        <Image Source="/Resources/logoWoText.png" HorizontalAlignment="Center" VerticalAlignment="Top" Height="101" Width="171" Margin="0,167,0,0" />
 
-        <Label Foreground="Black" FontSize ="72" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,222,0,0">REGISTER</Label>
-        <TextBox x:Name="UserNameBox" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Top" FontSize="32" Width="272" Margin="0,353,0,0">Username</TextBox>
-        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="32" Width="272" Margin="0,423,0,0"/>
-        <PasswordBox x:Name="ConfirmPasswordBox" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="32" Margin="0,485,0,0" Width="272"/>
-        <Button x:Name="RegisterAccountButton" Content="Sign Up" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,570,0,0" Width="272" Click="RegisterAccountButton_Click"/>
+        <Label Foreground="{DynamicResource HeaderLabel}" FontSize ="64" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,270,0,0">REGISTER</Label>
+        <TextBox Style="{DynamicResource TextBoxStyle1}" x:Name="UserNameBox" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Top" FontSize="32" Width="272" Margin="0,372,0,0" Height="50">Username</TextBox>
+        <PasswordBox Style="{DynamicResource PasswordBoxStyle1}" Foreground="{DynamicResource textBoxForeground}" Background="{DynamicResource textBoxBackground}" x:Name="passwordBox" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="32" Width="272" Margin="0,438,0,0" Height="51"/>
+        <PasswordBox Style="{DynamicResource PasswordBoxStyle1}" x:Name="ConfirmPasswordBox" HorizontalAlignment="Center"  Foreground="{DynamicResource textBoxForeground}" Background="{DynamicResource textBoxBackground}" VerticalAlignment="Top" FontSize="32" Margin="0,505,0,0" Width="272" Height="48"/>
+        <Button Style="{DynamicResource ButtonStyle1}" x:Name="RegisterAccountButton" Content="SIGN UP" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,570,0,0" Width="272" Click="RegisterAccountButton_Click"/>
         <Label x:Name="UsernameError"  Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,644,0,0" Visibility="Hidden">Account Username has already been taken!</Label>
         <Label x:Name="PasswordMatchError" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,644,0,0" Visibility="Hidden">Passwords Do Not Match</Label>
 
         <Label Foreground="Black" FontSize="12" Margin="591,765,591,55">Already Have An Account?</Label>
-        <Button x:Name="LoginToButton" Content="Login" HorizontalAlignment="Center" Margin="0,795,0,0" VerticalAlignment="Top" Click="LoginToButton_Click"/>
+        <Button  x:Name="LoginToButton" Content="Login" HorizontalAlignment="Center" Margin="0,795,0,0" VerticalAlignment="Top" Click="LoginToButton_Click"/>
     </Grid>
 </Page>

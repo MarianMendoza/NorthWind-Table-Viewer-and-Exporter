@@ -10,6 +10,7 @@
         SizeToContent="WidthAndHeight"
         MinHeight="845"
         MinWidth="1327"
+        FontFamily="Tw Cen MT"
         Title="MainWindow" Height="450" Width="800">
     <Grid Height="845" Width="1327">
         <Border Background="White">
