@@ -18,6 +18,11 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Configuration;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using Microsoft.Win32;
+using System.IO;
+using Paragraph = iTextSharp.text.Paragraph;
 
 namespace NW_Table_Viewer
 {
@@ -100,7 +105,6 @@ namespace NW_Table_Viewer
                     if (colName == colsHidden)
                     {
                         col.Visibility = Visibility.Hidden;
-                        break;
                     }
                 }
             }
@@ -118,7 +122,7 @@ namespace NW_Table_Viewer
                     if (colName == colsHidden)
                     {
                         col.Visibility = Visibility.Hidden;
-                        break;
+                        
                     }
                 }
                 CheckBox checkItem = new CheckBox();
@@ -134,10 +138,55 @@ namespace NW_Table_Viewer
                 //checkitem.setresourcereference(foregroundproperty, "")
 
                 checkItem.Content = col.Header;
-                //checkItem.Checked += CheckBox_Checked;
-                //checkItem.Unchecked += CheckBox_Unchecked;
+                checkItem.Checked += CheckBox_Checked;
+                checkItem.Unchecked += CheckBox_Unchecked;
                 ColumnsVisibilityComboBox.Items.Add(checkItem);
             }
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            string colName = "";
+            colName += (string)((CheckBox)sender).Content;
+
+            foreach (DataGridColumn col in MainTable.Columns)
+            {
+                if ($"{col.Header}" == colName)
+                {
+                    col.Visibility = Visibility.Visible;
+                }
+            }
+
+            foreach (DataGridColumn col in SelectedTable.Columns)
+            {
+                if ($"{col.Header}" == colName)
+                {
+                    col.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            string colName = "";
+            colName += (string)((CheckBox)sender).Content;
+
+            foreach (DataGridColumn col in MainTable.Columns)
+            {
+                if ($"{col.Header}" == colName)
+                {
+                    col.Visibility = Visibility.Hidden;
+                }
+            }
+
+            foreach (DataGridColumn col in SelectedTable.Columns)
+            {
+                if ($"{col.Header}" == colName)
+                {
+                    col.Visibility = Visibility.Hidden;
+                }
+            }
+
         }
 
         private void getData(string query)
@@ -183,5 +232,165 @@ namespace NW_Table_Viewer
             this.NavigationService.Navigate(new LoginPage());
         }
 
+        private void MainTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataTable selectedDataTable = MainDataTable.Clone();
+
+            if (MainTable.SelectedItems.Count > 0)
+            {
+
+
+                for (int i = 0; i < MainTable.SelectedItems.Count; i++)
+                {
+
+                    int numSelected = i + 1;
+                    CountLabel.Content = numSelected.ToString();
+
+                }
+
+                foreach (DataRowView selectedItem in MainTable.SelectedItems)
+                {
+                    DataRow dr = selectedDataTable.NewRow();
+                    dr.ItemArray = selectedItem.Row.ItemArray;
+                    selectedDataTable.Rows.Add(dr);
+                }
+                SelectedTable.ItemsSource = selectedDataTable.DefaultView;
+
+
+            }
+            else
+            {
+                CountLabel.Content = "0";
+                SelectedTable.ItemsSource = null;
+                SelectedTable.Items.Clear();
+            }
+
+
+        }
+
+        private void ExportButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataTable SelectedDataTable = MainDataTable.Clone();
+
+            foreach (DataRowView SelectedItem in MainTable.SelectedItems)
+            {
+                DataRow dr = SelectedDataTable.NewRow();
+                dr.ItemArray = SelectedItem.Row.ItemArray;
+                SelectedDataTable.Rows.Add(dr);
+            }
+
+            if (PdfCheck.IsChecked == true)
+            {
+                if (SelectCheck.IsChecked == true)
+                {
+
+                    ExportPdfTable(MainDataTable);
+                }
+                else
+                {
+                    ExportPdfTable(SelectedDataTable);
+                }
+            }
+
+            if (CSVCheck.IsChecked == true)
+            {
+                if (SelectCheck.IsChecked == true)
+                {
+                    ExportCSVTable(MainDataTable);
+                }
+                else
+                {
+                    ExportCSVTable(SelectedDataTable);
+                }
+            }
+
+        }
+
+
+        private void ExportPdfTable(DataTable DataTable)
+
+
+        {
+            SaveFileDialog exportDialog = new SaveFileDialog();
+            exportDialog.Filter = "Portable Document File (*.pdf)|*.pdf";
+
+            if (exportDialog.ShowDialog() == true)
+            {
+                Document doc = new Document(PageSize.A4.Rotate(), 1, 1, 1, 1);
+                PdfPTable pdftable = new PdfPTable(DataTable.Columns.Count);
+                PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream(exportDialog.FileName, FileMode.Create));
+                doc.Open();
+
+
+                //Report header
+                string strHeader = "Table Exported";
+                BaseFont bfntHead = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+                Font fntHead = new Font(bfntHead, 16, 1, BaseColor.GRAY);
+                Paragraph prgHeading = new Paragraph();
+                prgHeading.Alignment = Element.ALIGN_CENTER;
+                prgHeading.Add(new Chunk(strHeader.ToUpper(), fntHead));
+                doc.Add(prgHeading);
+
+                Paragraph prgElements = new Paragraph();
+                BaseFont btnElements = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+                Font ftnElements = new Font(btnElements, 8, 2, BaseColor.GRAY);
+                prgElements.Alignment = Element.ALIGN_RIGHT;
+                prgElements.Add(new Chunk("\nDate :" + DateTime.Now.ToShortDateString(), ftnElements));
+                doc.Add(prgElements);
+
+                Paragraph p = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 0.0F)));
+                doc.Add(p);
+                doc.Add(new Chunk("\n", fntHead));
+
+                BaseFont bf = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1250, BaseFont.EMBEDDED);
+
+                Font text = new Font(bf, 11, Font.NORMAL);
+                for (int j = 0; j < DataTable.Columns.Count; j++)
+                {
+                    PdfPCell cell = new PdfPCell(new Phrase(DataTable.Columns[j].ToString(), text));
+                    cell.BackgroundColor = BaseColor.LIGHT_GRAY;
+                    pdftable.AddCell(cell);
+                }
+
+                foreach (DataRow Row in DataTable.Rows)
+                {
+                    foreach (object Item in Row.ItemArray)
+                    {
+                        pdftable.AddCell(Item.ToString());
+                    }
+                }
+
+                doc.Add(pdftable);
+                doc.Close();
+                MessageBox.Show("PDF Exporter Successfully");
+
+            }
+        }
+
+        private void ExportCSVTable(DataTable datatable)
+        {
+
+            try
+
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "Comma Seperate Values (*.csv)|*.csv";
+                string[] outputCsv = new string[datatable.Rows.Count + 1];
+
+                if (sfd.ShowDialog() == true)
+                {
+                    CSVLibraryAK.CSVLibraryAK.Export(sfd.FileName, datatable);
+                    MessageBox.Show("CSV Exporter Successfully");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+
+            }
+        }
     }
 }

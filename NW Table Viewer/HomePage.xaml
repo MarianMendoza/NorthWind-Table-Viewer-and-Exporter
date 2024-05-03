@@ -19,19 +19,19 @@
             <ComboBox x:Name="ColumnsVisibilityComboBox" HorizontalAlignment="Left" Margin="1140,87,0,0" VerticalAlignment="Top" Width="78"/>
             <ComboBox x:Name="ColumnSizeComboBox" HorizontalAlignment="Left" Margin="1236,87,0,0" VerticalAlignment="Top" Width="50"/>
 
-        <DataGrid x:Name="MainTable" Margin="40,120,41,255" ColumnWidth="*"/>
+        <DataGrid x:Name="MainTable" CanUserAddRows="False" AutoGenerateColumns="False" Margin="40,120,41,255" ColumnWidth="*" SelectionChanged="MainTable_SelectionChanged"/>
 
 
         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,590,0,0">Selected Rows:</Label>
             <Label x:Name="CountLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="131,590,0,0">0</Label>
-            <Button x:Name="ExportButton" Content="Export" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1018,593,0,0"/>
+            <Button x:Name="ExportButton" Content="Export" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1018,593,0,0" Click="ExportButton_Click"/>
             <CheckBox x:Name="PdfCheck" Content=".PDF" HorizontalAlignment="Left" Margin="1068,595,0,0" VerticalAlignment="Top"/>
             <CheckBox x:Name="CSVCheck" Content=".CSV" HorizontalAlignment="Left" Margin="1117,595,0,0" VerticalAlignment="Top"/>
             <CheckBox x:Name="SelectCheck" Content="Select Whole Table" HorizontalAlignment="Left" Margin="1167,595,0,0" VerticalAlignment="Top"/>
 
 
 
-        <DataGrid x:Name="SelectedTable" Margin="40,619,41,15" ColumnWidth="*"/>
+        <DataGrid x:Name="SelectedTable" CanUserAddRows="False" AutoGenerateColumns="False" Margin="40,619,41,15" ColumnWidth="*"/>
 
         
 
