@@ -16,13 +16,13 @@
         <Image Source="/Resources/logoWoText.png" HorizontalAlignment="Center" VerticalAlignment="Top" Height="101" Width="171" Margin="0,167,0,0" />
 
         <Label Foreground="{DynamicResource HeaderLabel}" FontSize ="64" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,285,0,0" Width="212" Height="79"  >LOG IN</Label>
-        <TextBox Style="{DynamicResource TextBoxStyle1}" x:Name="UserNameBox" TextAlignment="Center" Background="{DynamicResource textBoxBackground}" Foreground="{DynamicResource textBoxForeground}" BorderBrush="{x:Null}" HorizontalAlignment="Center"  VerticalAlignment="Top" FontSize="32" Width="298" Margin="0,387,0,0" Height="58" >USERNAME</TextBox>
-        <PasswordBox Style="{DynamicResource PasswordBoxStyle1}"  x:Name="passwordBox" Background="{DynamicResource textBoxBackground}" Foreground="{DynamicResource textBoxForeground}" BorderBrush="{x:Null}"  VerticalAlignment="Top" FontSize="32" Margin="514,466,515,0" Height="58"/>
+        <TextBox Style="{DynamicResource TextBoxStyle1}" x:Name="UserNameBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{DynamicResource textBoxBackground}" Foreground="{DynamicResource textBoxForeground}" BorderBrush="{x:Null}" HorizontalAlignment="Center"  VerticalAlignment="Top" FontSize="32" Width="298" Margin="0,387,0,0" Height="58" >USERNAME</TextBox>
+        <PasswordBox Style="{DynamicResource PasswordBoxStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" x:Name="passwordBox" Background="{DynamicResource textBoxBackground}" Foreground="{DynamicResource textBoxForeground}" BorderBrush="{x:Null}"  VerticalAlignment="Top" FontSize="32" Margin="514,466,515,0" Height="58"/>
         <Label x:Name="CredentialsError" HorizontalAlignment="Center" FontSize="19" FontWeight="Bold" Foreground="{DynamicResource buttonBackground}" VerticalAlignment="Top" Margin="0,615,0,0" Visibility="Hidden">Account Credentials Are Incorrect!</Label>
 
-        <Button Style="{DynamicResource ButtonStyle1}"   Background="{DynamicResource buttonBackground}" Foreground="{DynamicResource buttonForeground}" x:Name="LoginButton" Content="LOGIN" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,550,0,0" Width="298" Click="LoginButton_Click" Height="50"/>
+        <Button Style="{DynamicResource ButtonStyle1}"   Background="{DynamicResource buttonBackground}" Foreground="{DynamicResource buttonForeground}" x:Name="LoginButton" Content="LOGIN" BorderThickness="0" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,550,0,0" Width="298" Click="LoginButton_Click" Height="50"/>
         <Label HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" Foreground="{DynamicResource buttonBackground}" Margin="0,659,0,0">Don't Have an Account Yet?</Label>
-        <Button Background="Transparent"  Foreground="{DynamicResource buttonBackground}" BorderBrush="{x:Null}" x:Name="RegisterToButton" Content="Register" HorizontalAlignment="Center" Margin="0,693,0,0" VerticalAlignment="Top" Click="RegisterToButton_Click" FontSize="20"/>
+        <Button Background="Transparent"  Foreground="{DynamicResource buttonBackground}" BorderThickness="0" BorderBrush="{x:Null}" x:Name="RegisterToButton" Content="Register" HorizontalAlignment="Center" Margin="0,693,0,0" VerticalAlignment="Top" Click="RegisterToButton_Click" FontSize="20"/>
 
     </Grid>
 </Page>

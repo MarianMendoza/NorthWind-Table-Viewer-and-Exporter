@@ -7,7 +7,7 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Themes/darkmode.xaml"/>
+                <ResourceDictionary Source="/Themes/lightmode.xaml"/>
             </ResourceDictionary.MergedDictionaries>
           
             <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
@@ -23,39 +23,37 @@
                 </Setter>
             </Style>
           
-            <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
-                <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-                <Setter Property="Background" Value="{DynamicResource buttonBackground}"/>
-                <Setter Property="BorderBrush" Value="{x:Null}"/>
-                <Setter Property="Foreground" Value="{DynamicResource buttonForeground}"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="Padding" Value="1"/>
+            <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
-                            <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{x:Null}" BorderThickness="0" SnapsToDevicePixels="true">
-                                <ContentPresenter x:Name="contentPresenter" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </Border>
+                            <Grid>
+                                <Rectangle x:Name="Border" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" SnapsToDevicePixels="True"/>
+                                <Polygon x:Name="Arrow" Fill="Black" HorizontalAlignment="Right" Margin="8,8,3,3" Opacity="0.15" Points="0,10 10,10 10,0" Stretch="Uniform" VerticalAlignment="Bottom"/>
+                            </Grid>
                             <ControlTemplate.Triggers>
-                                <Trigger Property="IsDefaulted" Value="true">
-                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Stroke" TargetName="Border" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
                                 </Trigger>
-                               
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Fill" TargetName="Border" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Visibility" TargetName="Arrow" Value="Collapsed"/>
+                                </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
+           
             <Style x:Key="PasswordBoxStyle1" TargetType="{x:Type PasswordBox}">
                 <Setter Property="PasswordChar" Value="●"/>
-                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}"/>
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Background" Value="{DynamicResource textBoxBackground}"/>
+                <Setter Property="Foreground" Value="{DynamicResource textBoxForeground}"/>
                 <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
-                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 <Setter Property="AllowDrop" Value="true"/>
                 <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
@@ -81,21 +79,17 @@
                     </Setter.Value>
                 </Setter>
                 <Style.Triggers>
-                    <MultiTrigger>
-                        <MultiTrigger.Conditions>
-                            <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
-                            <Condition Property="IsSelectionActive" Value="false"/>
-                        </MultiTrigger.Conditions>
-                        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                    </MultiTrigger>
+                  
                 </Style.Triggers>
             </Style>
             <Style x:Key="TextBoxStyle1" TargetType="{x:Type TextBox}">
                 <Setter Property="Background" Value="{DynamicResource textBoxBackground}"/>
                 <Setter Property="Foreground" Value="{DynamicResource textBoxForeground}"/>
                 <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
-                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="TextAlignment" Value="Center"/>
                 <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
                 <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
                 <Setter Property="Template">
@@ -108,24 +102,12 @@
                                 <Trigger Property="IsEnabled" Value="false">
                                     <Setter Property="Opacity" TargetName="border" Value="0.56"/>
                                 </Trigger>
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource textBoxBackground}"/>
-                                </Trigger>
-                                <Trigger Property="IsKeyboardFocused" Value="true">
-                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource textBoxBackground}"/>
-                                </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
                 <Style.Triggers>
-                    <MultiTrigger>
-                        <MultiTrigger.Conditions>
-                            <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
-                            <Condition Property="IsSelectionActive" Value="false"/>
-                        </MultiTrigger.Conditions>
-                        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                    </MultiTrigger>
+                    
                 </Style.Triggers>
             </Style>
         </ResourceDictionary>

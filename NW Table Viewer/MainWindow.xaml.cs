@@ -22,5 +22,35 @@ namespace NW_Table_Viewer
             MainFrame.Navigate(new LoginPage());
         }
 
+        private void ThemeToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            DockPanel.SetDock(ThemeToggleSwitch, Dock.Right);
+            AppThemes.ChangeTheme(new Uri("Themes/darkmode.xaml", UriKind.Relative));
+        }
+
+        private void ThemeToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            DockPanel.SetDock(ThemeToggleSwitch, Dock.Left);
+            AppThemes.ChangeTheme(new Uri("Themes/lightmode.xaml", UriKind.Relative));
+
+        }
+
+        private void MainFrame_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(e.ChangedButton == MouseButton.Left)
+            {
+                DragMove();
+            }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
     }
 }

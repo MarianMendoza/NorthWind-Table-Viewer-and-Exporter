@@ -69,7 +69,7 @@ namespace NW_Table_Viewer
                     SelectedTable.Columns.Clear();
 
                     query = "SELECT * FROM [master].[dbo].[Orders]";
-                    ColNames = new string[] { "OrderID", "CustomerID", "EmployeeID", "OrderDate", "RequriedDate", "ShippingDate", "ShipVia", "Freight", "ShipName", "ShipAddress", "ShipCity", "ShipRegion", "ShipPostalCode", "ShipCountry" };
+                    ColNames = new string[] { "OrderID", "CustomerID", "EmployeeID", "OrderDate", "RequiredDate", "ShippedDate", "ShipVia", "Freight", "ShipName", "ShipAddress", "ShipCity", "ShipRegion", "ShipPostalCode", "ShipCountry" };
                     ColHidden = new string[] { "Freight", "ShipRegion" };
                     break;
                 default:
@@ -80,7 +80,7 @@ namespace NW_Table_Viewer
             }
             Debug.WriteLine(query, ColNames,ColHidden);
             Console.WriteLine(query, ColNames);
-
+             
             BindToDataTable(ColNames, ColHidden);
             getData(query);
 

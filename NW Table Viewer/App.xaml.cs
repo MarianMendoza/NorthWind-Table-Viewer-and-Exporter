@@ -7,8 +7,14 @@ namespace NW_Table_Viewer
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    internal class AppThemes
     {
+        public static void ChangeTheme(Uri theme)
+        {
+            ResourceDictionary Theme = new ResourceDictionary() { Source = theme };
+            App.Current.Resources.Clear();
+            App.Current.Resources.MergedDictionaries.Add(Theme);
+        }
     }
 
 }

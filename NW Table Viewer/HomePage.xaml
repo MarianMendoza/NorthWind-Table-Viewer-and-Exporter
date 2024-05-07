@@ -9,32 +9,218 @@
       FontFamily="Tw Cen MT"
       MinWidth="1327"
       Title="HomePage">
+    <Page.Resources>
 
-    <Grid>
-       
-            <Label Content="Home Page" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,34,0,0"/>
-            <Button x:Name="LogoutButton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1236,41,0,0" Click="LogoutButton_Click"  >LOGOUT</Button>
+        <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle x:Name="Border" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" SnapsToDevicePixels="True"/>
+                            <Polygon x:Name="Arrow" Fill="Black" HorizontalAlignment="Right" Margin="8,8,3,3" Opacity="0.15" Points="0,10 10,10 10,0" Stretch="Uniform" VerticalAlignment="Bottom"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Stroke" TargetName="Border" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Fill" TargetName="Border" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Visibility" TargetName="Arrow" Value="Collapsed"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-            <ComboBox x:Name="TableComboBox" HorizontalAlignment="Left" Margin="322,87,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="TableComboBox_SelectionChanged" Initialized="TableComboBox_Initialized" />
-            <TextBox x:Name="SearchDataGrid" HorizontalAlignment="Left" Margin="488,85,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="624" Height="24" TextChanged="SearchDataGrid_TextChanged" />
-            <ComboBox x:Name="ColumnsVisibilityComboBox" HorizontalAlignment="Left" Margin="1140,87,0,0" VerticalAlignment="Top" Width="78"/>
-            <ComboBox x:Name="ColumnSizeComboBox" HorizontalAlignment="Left" Margin="1236,87,0,0" VerticalAlignment="Top" Width="50" Initialized="ColumnSizeComboBox_Initialized" SelectionChanged="ColumnSizeComboBox_SelectionChanged"/>
+        <ControlTemplate x:Key="DataGridTemplate1" TargetType="{x:Type DataGrid}">
 
-        <DataGrid x:Name="MainTable" CanUserAddRows="False" AutoGenerateColumns="False" Margin="40,120,41,255" ColumnWidth="*" SelectionChanged="MainTable_SelectionChanged"/>
+            <Border Background="{DynamicResource TableBG}" BorderBrush="{x:Null}" BorderThickness="0" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                <ScrollViewer x:Name="DG_ScrollViewer" Focusable="false">
+                    <ScrollViewer.Template>
+                        <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Button Command="{x:Static DataGrid.SelectAllCommand}" Focusable="false" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" Grid.ColumnSpan="2" Grid.Row="1"/>
+                                <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                                <Grid Grid.Column="1" Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Orientation="Horizontal" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </ScrollViewer.Template>
+                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                </ScrollViewer>
+            </Border>
+        </ControlTemplate>
+        <Style x:Name="DataGridStyle" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="{DynamicResource TableHeaderBG}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TableHeaderFG}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Border Background="{DynamicResource TableHeaderBG}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter HorizontalAlignment="Left" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="SortDirection" Value="Ascending"/>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
 
-        <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,590,0,0">Selected Rows:</Label>
-            <Label x:Name="CountLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="131,590,0,0">0</Label>
-            <Button x:Name="ExportButton" Content="Export" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1018,593,0,0" Click="ExportButton_Click"/>
-            <CheckBox x:Name="PdfCheck" Content=".PDF" HorizontalAlignment="Left" Margin="1068,595,0,0" VerticalAlignment="Top"/>
-            <CheckBox x:Name="CSVCheck" Content=".CSV" HorizontalAlignment="Left" Margin="1117,595,0,0" VerticalAlignment="Top"/>
-            <CheckBox x:Name="SelectCheck" Content="Select Whole Table" HorizontalAlignment="Left" Margin="1167,595,0,0" VerticalAlignment="Top" Checked="SelectCheck_Checked" Unchecked="SelectCheck_Unchecked"/>
+    </Page.Resources>
+
+    <Grid Background="{DynamicResource BackgroundColour}">
+
+        <Image Source="/Resources/logo.png" HorizontalAlignment="Left" VerticalAlignment="Top" Height="74" Width="126" Margin="44,22,0,0" />
+
+        <Button x:Name="LogoutButton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1153,10,0,0" Click="LogoutButton_Click" Height="27" Width="52"  >LOGOUT</Button>
+        <TextBox x:Name="SearchDataGrid" FontSize="20" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="486,74,0,0" TextWrapping="Wrap" Text="Search..." BorderBrush="{x:Null}" BorderThickness="0" Background="{DynamicResource SearchBarBG}" Foreground="{DynamicResource SearchBarFG}" VerticalAlignment="Top" Width="626" Height="35" TextChanged="SearchDataGrid_TextChanged" />
+        <ComboBox x:Name="ColumnSizeComboBox" HorizontalAlignment="Left" Margin="1236,74,0,0" VerticalAlignment="Top" Width="50" Initialized="ColumnSizeComboBox_Initialized" SelectionChanged="ColumnSizeComboBox_SelectionChanged" Height="32"/>
+
+        <DataGrid 
+            x:Name="MainTable" 
+            Template="{DynamicResource DataGridTemplate1}" 
+            GridLinesVisibility="None"   
+            RowBackground="{DynamicResource RowColour}"
+            AlternatingRowBackground="{DynamicResource RowAColour}"
+            Foreground="{DynamicResource TableText}"
+            HorizontalContentAlignment="Stretch"
+            IsReadOnly="True"
+            FontSize="15"
+            HeadersVisibility="Column"
+            CanUserAddRows="False" 
+            AutoGenerateColumns="False" 
+            Margin="43,120,41,271" 
+            ColumnWidth="*" 
+            SelectionChanged="MainTable_SelectionChanged"/>
+
+
+        <Label HorizontalAlignment="Left" FontSize="30" VerticalAlignment="Top" Foreground="{DynamicResource TextColour}" Margin="44,575,0,0">Selected Rows:</Label>
+        <Label x:Name="CountLabel" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{DynamicResource TextColour}" Margin="244,576,0,0">0</Label>
+        <CheckBox FontSize="14" x:Name="PdfCheck" Content=".PDF" HorizontalAlignment="Left" Margin="1061,590,0,0" VerticalAlignment="Top" Background="{DynamicResource CheckBoxBG}" Foreground="{DynamicResource ButtonMainFG}" BorderBrush="{x:Null}" BorderThickness="0"/>
+        <CheckBox FontSize="14" x:Name="CSVCheck" Content=".CSV" HorizontalAlignment="Left" Margin="1110,590,0,0" VerticalAlignment="Top" Background="{DynamicResource CheckBoxBG}" Foreground="{DynamicResource ButtonMainFG}" BorderBrush="{x:Null}" BorderThickness="0"/>
+        <CheckBox FontSize="14" x:Name="SelectCheck" Content="Select Whole Table" HorizontalAlignment="Left" Margin="1158,590,0,0" VerticalAlignment="Top" Checked="SelectCheck_Checked" Foreground="{DynamicResource ButtonMainFG}" Unchecked="SelectCheck_Unchecked" Background="{DynamicResource CheckBoxBG}" BorderBrush="{x:Null}" BorderThickness="0"/>
 
 
 
-        <DataGrid x:Name="SelectedTable" CanUserAddRows="False" AutoGenerateColumns="False" Margin="40,619,41,15" ColumnWidth="*"/>
-
-        
-
+        <DataGrid 
+            Template="{DynamicResource DataGridTemplate1}" 
+            x:Name="SelectedTable" 
+            GridLinesVisibility="None"   
+            FontSize="15"
+            RowBackground="{DynamicResource RowColour}"
+            AlternatingRowBackground="{DynamicResource RowAColour}"
+            Foreground="{DynamicResource TableText}"
+            HorizontalContentAlignment="Stretch"
+            IsReadOnly="True"
+            HeadersVisibility="Column"
+            CanUserAddRows="False" 
+            AutoGenerateColumns="False" 
+            Margin="43,618,41,39" 
+            ColumnWidth="*"/>
+        <Border HorizontalAlignment="Left" Height="28" Margin="956,583,0,0" VerticalAlignment="Top" Width="84">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="2" BlurRadius="3" Opacity="0.2" Direction="270"/>
+            </Border.Effect>
+            <Button FontSize="16" Style="{DynamicResource ButtonStyle1}" BorderBrush="{x:Null}" Background="{DynamicResource ButtonMainBG}" Foreground="{DynamicResource ButtonMainFG}" BorderThickness="0" x:Name="ExportButton" Content="Export" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ExportButton_Click" Height="28" Width="84"/>
+        </Border>
+        <Border HorizontalAlignment="Left" Height="34" Margin="327,75,0,0" VerticalAlignment="Top" Width="120">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="2" BlurRadius="3" Opacity="0.2" Direction="270"/>
+            </Border.Effect>
+            <ComboBox x:Name="TableComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" SelectionChanged="TableComboBox_SelectionChanged" Initialized="TableComboBox_Initialized" Height="35" />
+        </Border>
+        <Border HorizontalAlignment="Left" Height="32" Margin="1127,74,0,0" VerticalAlignment="Top" Width="78">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="2" BlurRadius="3" Opacity="0.2" Direction="270"/>
+            </Border.Effect>
+            <ComboBox x:Name="ColumnsVisibilityComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="78" Height="32"/>
+        </Border>
     </Grid>
 </Page>

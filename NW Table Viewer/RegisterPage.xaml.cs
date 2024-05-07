@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
 using System.Windows.Automation.Peers;
+
 namespace NW_Table_Viewer
 {
     /// <summary>
@@ -56,27 +57,37 @@ namespace NW_Table_Viewer
                 cmd1.ExecuteNonQuery(); 
                 int Count=(int)cmd1.ExecuteScalar();
 
-                if (Count >0)
+                if (UserNameBox.Text.Length == 0 || passwordBox.Password.Length == 0)
                 {
-                    UsernameError.Visibility = Visibility.Visible;
-                    con.Close();
+                    MessageBox.Show("Please Enter Details");
                 }
                 else
                 {
-                    if (passwordBox.Password != ConfirmPasswordBox.Password)
+                    if (Count > 0)
                     {
-                        PasswordMatchError.Visibility = Visibility.Visible;
+                        UsernameError.Visibility = Visibility.Visible;
+                        con.Close();
                     }
                     else
                     {
-                        cmd.Parameters.AddWithValue("@UserName", UserNameBox.Text);
-                        cmd.Parameters.AddWithValue("@Password", passwordBox.Password);
-                        MessageBox.Show("Account Successfully Made!");
+                        if (passwordBox.Password != ConfirmPasswordBox.Password)
+                        {
+                            PasswordMatchError.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@UserName", UserNameBox.Text);
+                            cmd.Parameters.AddWithValue("@Password", passwordBox.Password);
+                            MessageBox.Show("Account Successfully Made!");
 
-                        cmd.ExecuteNonQuery();
-                        con.Close();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
                     }
+
+
                 }
+
 
 
             }

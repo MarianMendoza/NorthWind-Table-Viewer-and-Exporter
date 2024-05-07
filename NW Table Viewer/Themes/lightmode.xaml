@@ -6,17 +6,31 @@
     <SolidColorBrush Color="#2E447A" x:Key="HeaderLabel"/>
     <SolidColorBrush Color="#2E447A" x:Key="textBoxForeground"/>
     <SolidColorBrush Color="#F0F4FF" x:Key="textBoxBackground"/>
-    <SolidColorBrush Color="#502E7A" x:Key="buttonBackground"/>
+    <SolidColorBrush Color="#354B7F" x:Key="buttonBackground"/>
     <SolidColorBrush Color="#FFFFFF" x:Key="buttonForeground"/>
 
     <SolidColorBrush Color="#FFFFFF" x:Key="comboBackground"/>
     <SolidColorBrush Color="#502E7A" x:Key="comboForeground"/>
 
-    <SolidColorBrush Color="#502E7A" x:Key="TableHeader"/>
-    <SolidColorBrush Color="#FFFFFF" x:Key="TableHColour"/>
-    <SolidColorBrush Color="#F6F6F6" x:Key="RowColour"/>
+    <SolidColorBrush Color="#354B7F" x:Key="TextColour"/>
+
+
+    <SolidColorBrush Color="#FFFFFF" x:Key="ButtonMainBG"/>
+    <SolidColorBrush Color="#000000" x:Key="ButtonMainFG"/>
+
+    <SolidColorBrush Color="#F0F4FF" x:Key="SearchBarBG"/>
+    <SolidColorBrush Color="#2E447A" x:Key="SearchBarFG"/>
+
+    <SolidColorBrush Color="#F0F4FF" x:Key="CheckBoxBG"/>
+
+    <SolidColorBrush Color="#6376A8" x:Key="TableHeaderBG"/>
+    <SolidColorBrush Color="#FFFFFF" x:Key="TableHeaderFG"/>
+    <SolidColorBrush Color="#E1E4EE" x:Key="TableBG"/>
+    <SolidColorBrush Color="#E1E4EE" x:Key="RowColour"/>
     <SolidColorBrush Color="#FFFFFF" x:Key="RowAColour"/>
     <SolidColorBrush Color="#000000" x:Key="TableText"/>
+    <SolidColorBrush Color="#D5DFFA" x:Key="ToggleButtonBG"/>
+    <SolidColorBrush Color="#2E447A" x:Key="ToggleButtonFG"/>
 
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#D1DEF0"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="#502E7A"/>
