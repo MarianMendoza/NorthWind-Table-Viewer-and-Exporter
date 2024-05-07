@@ -10,11 +10,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\darkmode\arrowDown1.png" />
+    <None Remove="Resources\darkmode\columnDensity.png" />
+    <None Remove="Resources\darkmode\columnfilter.png" />
+    <None Remove="Resources\lightmode\arrowDown1.png" />
+    <None Remove="Resources\lightmode\columnDensity.png" />
+    <None Remove="Resources\lightmode\columnfilter.png" />
     <None Remove="Resources\logo.png" />
     <None Remove="Resources\logoWoText.png" />
+    <None Remove="Resources\minimize.png" />
+    <None Remove="Resources\x.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\darkmode\arrowDown1.png" />
+    <Resource Include="Resources\darkmode\columnDensity.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\darkmode\columnfilter.png" />
+    <Resource Include="Resources\lightmode\arrowDown1.png" />
+    <Resource Include="Resources\lightmode\columnDensity.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\lightmode\columnfilter.png" />
     <Resource Include="Resources\logoWoText.png" />
   </ItemGroup>
 
@@ -34,6 +52,8 @@
 
   <ItemGroup>
     <Resource Include="Resources\logo.png" />
+    <Resource Include="Resources\minimize.png" />
+    <Resource Include="Resources\x.png" />
   </ItemGroup>
 
 </Project>

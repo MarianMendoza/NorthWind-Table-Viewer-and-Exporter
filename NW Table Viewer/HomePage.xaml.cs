@@ -37,10 +37,10 @@ namespace NW_Table_Viewer
         public DataTable SelectedDataTable = new DataTable();
         public HomePage()
         {
-           // Debug.WriteLine("Hello World!");
+            // Debug.WriteLine("Hello World!");
             InitializeComponent();
             TableComboBox.SelectedIndex = 0;
- 
+
         }
 
         private void LoadData(string SelectedDatabase)
@@ -49,20 +49,20 @@ namespace NW_Table_Viewer
             string[] ColNames = null;
             string[] ColHidden = null;
 
-            switch(SelectedDatabase)
+            switch (SelectedDatabase)
             {
                 case "Customers":
                     SelectedTable.Columns.Clear();
                     query = "SELECT * FROM [master].[dbo].[Customers]";
-                    ColNames = new string[] {"CustomerID","CompanyName","ContactName","ContactName","ContactTitle","Address","City","Region","PostalCode","Country","Phone","Fax"};
-                    ColHidden = new string[] {"Address","Region","PostalCode"};
+                    ColNames = new string[] { "CustomerID", "CompanyName", "ContactName", "ContactName", "ContactTitle", "Address", "City", "Region", "PostalCode", "Country", "Phone", "Fax" };
+                    ColHidden = new string[] { "Address", "Region", "PostalCode" };
 
                     break;
                 case "Employees":
                     SelectedTable.Columns.Clear();
                     query = "SELECT * FROM [master].[dbo].[Employees]";
-                    ColNames = new string[] { "EmployeeID", "LastName","FirstName","Title","TitleOfCourtesy","BirthDate","HireDate","Address","City","Region","PostalCode","Country","HomePhone","Extension","Photo","Notes","ReportsTo","PhotoPath" };
-                    ColHidden = new string[] { "BirthDate", "Region","Photo", "Notes","PhotoPath" };
+                    ColNames = new string[] { "EmployeeID", "LastName", "FirstName", "Title", "TitleOfCourtesy", "BirthDate", "HireDate", "Address", "City", "Region", "PostalCode", "Country", "HomePhone", "Extension", "Photo", "Notes", "ReportsTo", "PhotoPath" };
+                    ColHidden = new string[] { "BirthDate", "Region", "Photo", "Notes", "PhotoPath" };
 
                     break;
                 case "Orders":
@@ -78,9 +78,9 @@ namespace NW_Table_Viewer
                     ColHidden = new string[] { "Address", "Region", "PostalCode" };
                     return;
             }
-            Debug.WriteLine(query, ColNames,ColHidden);
+            Debug.WriteLine(query, ColNames, ColHidden);
             Console.WriteLine(query, ColNames);
-             
+
             BindToDataTable(ColNames, ColHidden);
             getData(query);
 
@@ -99,7 +99,7 @@ namespace NW_Table_Viewer
 
             ColumnsVisibilityComboBox.Items.Clear();
 
-            foreach(string colName in ColNames)
+            foreach (string colName in ColNames)
             {
                 DataGridTextColumn col = new DataGridTextColumn();
                 col.Header = colName;
@@ -107,7 +107,7 @@ namespace NW_Table_Viewer
 
                 SelectedTable.Columns.Add(col);
 
-                foreach(string colsHidden in ColHidden)
+                foreach (string colsHidden in ColHidden)
                 {
                     if (colName == colsHidden)
                     {
@@ -129,20 +129,21 @@ namespace NW_Table_Viewer
                     if (colName == colsHidden)
                     {
                         col.Visibility = Visibility.Hidden;
-                        
+
                     }
                 }
                 CheckBox checkItem = new CheckBox();
                 if (col.Visibility == Visibility.Hidden)
                 {
                     checkItem.IsChecked = false;
-                } else
+                }
+                else
                 {
                     checkItem.IsChecked = true;
                 }
-                //checkitem.borderbursh = null;
-                //checkitem.setresourcereference(backgroundproperty, "")\
-                //checkitem.setresourcereference(foregroundproperty, "")
+                checkItem.BorderBrush = null;
+                checkItem.SetResourceReference(BackgroundProperty, "CheckBoxBG");
+                checkItem.SetResourceReference(ForegroundProperty, "TextColour");
 
                 checkItem.Content = col.Header;
                 checkItem.Checked += CheckBox_Checked;
@@ -211,14 +212,106 @@ namespace NW_Table_Viewer
             con.Close();
         }
 
-
         private void TableComboBox_Initialized(object sender, EventArgs e)
         {
             TableComboBox.Items.Add("Customers");
             TableComboBox.Items.Add("Employees");
             TableComboBox.Items.Add("Orders");
-           
+
+        } 
+
+        private void SearchDataGrid_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchString = SearchDataGrid.Text;
+            SqlConnection con = new SqlConnection();
+            con.ConnectionString = ConfigurationManager.ConnectionStrings["Con"].ConnectionString;
+
+            try
+            {
+                con.Open();
+
+
+                SqlCommand cmd = new SqlCommand();
+                switch (TableComboBox.SelectedItem)
+                {
+                    case "Employees":
+
+
+                        cmd.CommandText = @"SELECT *
+                        FROM [master].[dbo].[Employees]
+                        WHERE 
+                            [EmployeeID] LIKE @searchText OR 
+                            [LastName] LIKE @searchText OR 
+                            [FirstName] LIKE @searchText OR
+                            [Title] LIKE @searchText OR
+                            [TitleOfCourtesy] LIKE @searchText OR
+                            [BirthDate] LIKE @searchText OR
+                            [HireDate] LIKE @searchText OR
+                            [Address] LIKE @searchText OR
+                            [City] LIKE @searchText OR
+                            [Region] LIKE @searchText OR
+                            [PostalCode] LIKE @searchText OR
+                            [Country] LIKE @searchText OR
+                            [HomePhone] LIKE @searchText OR
+                            [Extension] LIKE @searchText OR
+                            [Photo] LIKE @searchText OR
+                            [Notes] LIKE @searchText OR
+                            [ReportsTo] LIKE @searchText OR
+                            [PhotoPath] LIKE @searchText";
+                        cmd.Parameters.AddWithValue("@searchText", $"%{searchString}%");
+                        cmd.Connection = con;
+                        MainDataTable.Clear();
+
+
+
+
+                        break;
+
+
+
+                    case "Customers":
+
+
+                        cmd.CommandText = @"SELECT *
+                    FROM [master].[dbo].[Customers]
+                    WHERE 
+                        [CustomerID] LIKE @searchText OR 
+                        [CompanyName] LIKE @searchText OR 
+                        [ContactName] LIKE @searchText OR
+                        [ContactTitle] LIKE @searchText OR
+                        [Address] LIKE @searchText OR
+                        [City] LIKE @searchText OR
+                        [Region] LIKE @searchText OR
+                        [PostalCode] LIKE @searchText OR
+                        [Country] LIKE @searchText OR
+                        [Phone] LIKE @searchText OR
+                        [Fax] LIKE @searchText";
+                        cmd.Parameters.AddWithValue("@searchText", $"%{searchString}%");
+                        cmd.Connection = con;
+
+                        MainDataTable.Clear();
+
+
+                        break;
+                }
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(MainDataTable);
+
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
         }
+
+
+
 
 
         private void TableComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -445,88 +538,5 @@ namespace NW_Table_Viewer
             }
         }
 
-        private void SearchDataGrid_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string searchString = SearchDataGrid.Text;
-            SqlConnection con = new SqlConnection();
-            con.ConnectionString = ConfigurationManager.ConnectionStrings["Con"].ConnectionString;
-            con.Open();
-
-            try
-            {
-
-                SqlCommand cmd = new SqlCommand();
-                switch (TableComboBox.SelectedItem.ToString())
-                {
-                    case "Employees":
-
-                        Debug.WriteLine(TableComboBox.SelectedItem.ToString());
-
-                        cmd.CommandText = @"SELECT *
-                        FROM [master].[dbo].[Employees]
-                        WHERE 
-                            [EmployeeID] LIKE @searchText OR 
-                            [LastName] LIKE @searchText OR 
-                            [FirstName] LIKE @searchText OR
-                            [Title] LIKE @searchText OR
-                            [TitleOfCourtesy] LIKE @searchText OR
-                            [BirthDate] LIKE @searchText OR
-                            [HireDate] LIKE @searchText OR
-                            [Address] LIKE @searchText OR
-                            [City] LIKE @searchText OR
-                            [Region] LIKE @searchText OR
-                            [PostalCode] LIKE @searchText OR
-                            [Country] LIKE @searchText OR
-                            [HomePhone] LIKE @searchText OR
-                            [Extension] LIKE @searchText OR
-                            [Photo] LIKE @searchText OR
-                            [Notes] LIKE @searchText OR
-                            [ReportsTo] LIKE @searchText OR
-                            [PhotoPath] LIKE @searchText";
-                        cmd.Parameters.AddWithValue("@searchText", $"%{searchString}%");
-
-                        break;
-
-
-                    default:
-
-                        Debug.WriteLine("Customers Search");
-
-                        cmd.CommandText = @"SELECT *
-                    FROM [master].[dbo].[Customers]
-                    WHERE 
-                        [CustomerID] LIKE @searchText OR 
-                        [CompanyName] LIKE @searchText OR 
-                        [ContactName] LIKE @searchText OR
-                        [ContactTitle] LIKE @searchText OR
-                        [Address] LIKE @searchText OR
-                        [City] LIKE @searchText OR
-                        [Region] LIKE @searchText OR
-                        [PostalCode] LIKE @searchText OR
-                        [Country] LIKE @searchText OR
-                        [Phone] LIKE @searchText OR
-                        [Fax] LIKE @searchText";
-                        cmd.Parameters.AddWithValue("@searchText", $"%{searchString}%");
-
-                        Debug.Write(cmd.CommandText);
-                        break;
-       
-            }
-                cmd.Connection = con;
-                MainDataTable.Clear();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(MainDataTable);
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                con.Close();
-            }
-
-        }
     }
 }

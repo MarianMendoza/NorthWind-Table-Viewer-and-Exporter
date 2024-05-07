@@ -116,6 +116,13 @@
         <Border Background="Transparent">
             <Frame NavigationUIVisibility="Hidden" x:Name="MainFrame" MouseDown="MainFrame_MouseDown"/>
         </Border>
+
+        <Button Background="Transparent" BorderBrush="{x:Null}" x:Name="CloseButton" BorderThickness="0" HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Top" Margin="1296,6,0,0" Click="CloseButton_Click">
+            <Image Width="20" Height="20" Source="/Resources/x.png" />
+        </Button>
+        <Button Background="Transparent" BorderBrush="{x:Null}" BorderThickness="0" x:Name="MinimizeButton" HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Top" Margin="1261,6,0,0" Click="MinimizeButton_Click">
+            <Image Width="23" Height="24" Source="/Resources/minimize.png" />
+        </Button>
         <ToggleButton x:Name="ThemeToggleButton" Style="{DynamicResource ToggleButtonStyle1}"  HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="3" Margin="1268,817,0,0" Height="25" Width="49" Checked="ThemeToggleButton_Checked" Unchecked="ThemeToggleButton_Unchecked">
             <Grid HorizontalAlignment="Center" Height="29" VerticalAlignment="Center" Width="54">
                 <DockPanel HorizontalAlignment="Center" Height="22" LastChildFill="False" VerticalAlignment="Center" Width="45">
@@ -123,15 +130,6 @@
                 </DockPanel>
             </Grid>
         </ToggleButton>
-
-
-        <Button Background="{x:Null}" BorderBrush="{x:Null}" x:Name="CloseButton" BorderThickness="0" HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Top" Margin="1296,6,0,0" Click="CloseButton_Click">
-            <Image Width="20" Height="20" Source="/Resources/x.png" />
-        </Button>
-        <Button Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" x:Name="MinimizeButton" HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Top" Margin="1261,6,0,0" Click="MinimizeButton_Click">
-            <Image Width="23" Height="24" Source="/Resources/minimize.png" />
-        </Button>
-
 
     </Grid>
 </Window>

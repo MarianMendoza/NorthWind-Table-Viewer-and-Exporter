@@ -35,6 +35,468 @@
             </Setter>
         </Style>
 
+        <ControlTemplate x:Key="TableToggleButton">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <Border
+                    x:Name="Border"
+                    Grid.ColumnSpan="2"
+                    Background="{DynamicResource comboBackground}"
+                    >
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="2" BlurRadius="4" Opacity="0.25" Direction="270" />
+                    </Border.Effect>
+                </Border>
+                <Border
+                    Grid.Column="0"
+                    CornerRadius="10 0 0 10"
+                    Background="Transparent"
+                    />
+                <Path
+                    x:Name="Arrow"
+                    Grid.Column="1"
+                    Fill="{DynamicResource TextColour}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
+                    />
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource SelectionOver}" />
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="true">
+                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource SelectionOver}" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource SelectionOver}" />
+                    <Setter Property="Foreground" Value="{DynamicResource comboForeground}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
+            <Border x:Name="ContentPart" Focusable="False" Background="Transparent"/>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ComboBoxToggleButtonCol">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border
+              Background="Transparent"/>
+                <Image Source="{DynamicResource columnDensity}" />
+
+            </Grid>
+
+        </ControlTemplate>
+        <ControlTemplate x:Key="ComboBoxTemplateColumns" TargetType="{x:Type ComboBox}">
+            <Grid>
+                <ToggleButton
+              Name="ToggleButton"
+              Template="{StaticResource ComboBoxToggleButtonCol}"
+              Focusable="false"
+              IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+              ClickMode="Press">
+                    >
+                </ToggleButton>
+                <Popup 
+          Name="Popup"
+          Placement="Bottom"
+          IsOpen="{TemplateBinding IsDropDownOpen}"
+          AllowsTransparency="True" 
+          Focusable="False"
+          PopupAnimation="Slide">
+
+                    <Grid Name="DropDown"
+            SnapsToDevicePixels="True"                
+            MinWidth="{TemplateBinding ActualWidth}"
+            MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                        <Border 
+              x:Name="DropDownBorder"
+              Background="{DynamicResource comboBackground}"
+       >
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" BlurRadius="4" Opacity="0.25" Direction="270" />
+                            </Border.Effect>
+                        </Border>
+                        <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                        </ScrollViewer>
+                    </Grid>
+                </Popup>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="HasItems" Value="false">
+                    <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="#F2F4EC"/>
+                </Trigger>
+                <Trigger Property="IsGrouping" Value="true">
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </Trigger>
+                <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
+                    <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+
+
+
+
+        <ControlTemplate x:Key="ComboBoxTemplateTable" TargetType="{x:Type ComboBox}">
+            <Grid>
+                <ToggleButton Name="ToggleButton" Template="{StaticResource TableToggleButton}"
+                        Grid.Column="2"
+                        Focusable="false"
+                        IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                        ClickMode="Press"
+                 />
+                <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}"
+                 ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                 ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                  VerticalAlignment="Center"
+                                  Margin="10"
+                                  HorizontalAlignment="Left"/>
+                <TextBox x:Name="ContentPart"
+                         Template="{StaticResource ComboBoxTextBox}"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Focusable="False"
+                         Visibility="Hidden"
+                         Foreground="{DynamicResource comboForeground}"
+                         IsReadOnly="True"
+                         />
+                <Popup 
+                Name="Popup"
+                Placement="Bottom"
+                IsOpen="{TemplateBinding IsDropDownOpen}"
+                Focusable="False"
+                PopupAnimation="Slide">
+
+                    <Grid Name="DropDown"
+                  SnapsToDevicePixels="True"                
+                  MinWidth="{TemplateBinding ActualWidth}"
+                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                        <Border 
+                    x:Name="DropDownBorder"
+                    Background="{DynamicResource comboBackground}"
+             >
+
+                        </Border>
+                        <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                        </ScrollViewer>
+                    </Grid>
+                </Popup>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="HasItems" Value="false">
+                    <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="{DynamicResource ResourceKey=comboForeground}"/>
+                </Trigger>
+                <Trigger Property="IsGrouping" Value="true">
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ComboBoxToggleButton">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Border
+            x:Name="Border"
+             Grid.ColumnSpan="2"
+             Background="{DynamicResource comboBackground}">
+                 
+                </Border>
+                <Border
+             x:Name="Border2"
+             Grid.Column="0"
+             Background="{DynamicResource comboBackground}"
+             />
+                <Path
+             x:Name="Arrow"
+             Grid.Column="1"
+             Fill="{DynamicResource TextColour}"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center"
+             Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
+             />
+                <Label
+             Grid.Column="0"
+             Content="Filters"
+             Foreground="{DynamicResource TextColour}"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center"
+             FontSize="16"
+             Margin="20 0 0 0"
+             />
+                <Image Grid.Column="0" Source="{DynamicResource columnFilter}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,0,0,0" Height="19" Width="19"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource SelectionOver}" />
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="true">
+                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource SelectionOver}" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource SelectionOver}" />
+                    <Setter Property="Foreground" Value="{DynamicResource TextColour}"/>
+                    <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource TextColour}" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource TextColour}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+
+
+        <ControlTemplate x:Key="ComboBoxTemplateFilters" TargetType="{x:Type ComboBox}">
+            <Grid>
+                <ToggleButton
+          Name="ToggleButton"
+          Template="{StaticResource ComboBoxToggleButton}"
+          Grid.Column="2"
+          Focusable="false"
+          IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+          ClickMode="Press">
+                    >
+                </ToggleButton>
+                <Popup 
+                     Name="Popup"
+                     Placement="Bottom"
+                     IsOpen="{TemplateBinding IsDropDownOpen}"
+                     Focusable="False"
+                
+                     PopupAnimation="Slide">
+
+                    <Grid Name="DropDown"
+                       SnapsToDevicePixels="True"                
+                       MinWidth="{TemplateBinding ActualWidth}"
+                       MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                        <Border 
+                         x:Name="DropDownBorder"
+                         Background="{DynamicResource comboBackground}"
+                  >
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" BlurRadius="4" Opacity="0.25" Direction="270" />
+                            </Border.Effect>
+                        </Border>
+                        <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                        </ScrollViewer>
+                    </Grid>
+                </Popup>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="HasItems" Value="false">
+                    <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="#F2F4EC"/>
+                </Trigger>
+                <Trigger Property="IsGrouping" Value="true">
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </Trigger>
+                <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
+                    <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0 0 10 10"/>
+                    <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border 
+    Name="Border"
+    Margin="1" 
+    CornerRadius="0" 
+    Background="{DynamicResource ScrollBarBG}"
+    BorderBrush="{DynamicResource ScrollBarBG}"
+    BorderThickness="1">
+                            <Path 
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      Data="{Binding Path=Content,RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="blue" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Background="Transparent" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border 
+    CornerRadius="1"
+    Background="{DynamicResource ScrollBarButton}"
+    
+    />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition MaxHeight="18"/>
+                    <RowDefinition Height="0.00001*"/>
+                    <RowDefinition MaxHeight="18"/>
+                </Grid.RowDefinitions>
+                <Border
+Grid.RowSpan="3"
+CornerRadius="2" 
+Background="{DynamicResource ScrollBarBG}" />
+                <RepeatButton 
+Grid.Row="0"                           
+Style="{StaticResource ScrollBarLineButton}"
+Height="18"
+Command="ScrollBar.LineUpCommand"
+Content="M 0 4 L 8 4 L 4 0 Z" />
+                <Track 
+Name="PART_Track"
+Grid.Row="1"
+IsDirectionReversed="true">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton 
+    Style="{StaticResource ScrollBarPageButton}"
+    Command="ScrollBar.PageUpCommand" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb 
+    Style="{StaticResource ScrollBarThumb}" 
+    Margin="1,0,1,0"  
+    Background="{DynamicResource ScrollBarBG}"
+    BorderBrush="{DynamicResource ScrollBarButton}" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton 
+    Style="{StaticResource ScrollBarPageButton}"
+    Command="ScrollBar.PageDownCommand" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <RepeatButton 
+Grid.Row="3" 
+Style="{StaticResource ScrollBarLineButton}"
+Height="18"
+Command="ScrollBar.LineDownCommand"
+Content="M 0 0 L 4 4 L 8 0 Z"/>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="HorizontalScrollBar" TargetType="{x:Type ScrollBar}">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MaxWidth="18"/>
+                    <ColumnDefinition Width="0.00001*"/>
+                    <ColumnDefinition MaxWidth="18"/>
+                </Grid.ColumnDefinitions>
+                <Border
+Grid.ColumnSpan="3"
+CornerRadius="2" 
+Background="#F0F0F0" />
+                <RepeatButton 
+Grid.Column="0"                           
+Style="{StaticResource ScrollBarLineButton}"
+Width="18"
+Command="ScrollBar.LineLeftCommand"
+Content="M 4 0 L 4 8 L 0 4 Z" />
+                <Track 
+Name="PART_Track"
+Grid.Column="1"
+IsDirectionReversed="False">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton 
+    Style="{StaticResource ScrollBarPageButton}"
+    Command="ScrollBar.PageLeftCommand" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb 
+    Style="{StaticResource ScrollBarThumb}" 
+    Margin="0,1,0,1"  
+    Background="{DynamicResource ScrollBarBG}"
+    BorderBrush="{DynamicResource ScrollBarBG}" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton 
+    Style="{StaticResource ScrollBarPageButton}"
+    Command="ScrollBar.PageRightCommand" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <RepeatButton 
+Grid.Column="3" 
+Style="{StaticResource ScrollBarLineButton}"
+Width="18"
+Command="ScrollBar.LineRightCommand"
+Content="M 0 0 L 4 4 L 0 8 Z"/>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="Width" Value="Auto"/>
+                    <Setter Property="Height" Value="18" />
+                    <Setter Property="Template" Value="{StaticResource HorizontalScrollBar}" />
+                </Trigger>
+                <Trigger Property="Orientation" Value="Vertical">
+                    <Setter Property="Width" Value="18"/>
+                    <Setter Property="Height" Value="Auto" />
+                    <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
         <ControlTemplate x:Key="DataGridTemplate1" TargetType="{x:Type DataGrid}">
 
             <Border Background="{DynamicResource TableBG}" BorderBrush="{x:Null}" BorderThickness="0" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
@@ -87,6 +549,9 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <ContentPresenter HorizontalAlignment="Left" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="5,0,0,0">
+                                    <Image Height="14" Stretch="Uniform" Source="{DynamicResource arrow1}"/>
+                                </StackPanel>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -153,15 +618,17 @@
         </Style>
 
 
+
+
     </Page.Resources>
 
     <Grid Background="{DynamicResource BackgroundColour}">
 
         <Image Source="/Resources/logo.png" HorizontalAlignment="Left" VerticalAlignment="Top" Height="74" Width="126" Margin="44,22,0,0" />
 
-        <Button x:Name="LogoutButton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1153,10,0,0" Click="LogoutButton_Click" Height="27" Width="52"  >LOGOUT</Button>
+        <Button x:Name="LogoutButton" FontSize="18" BorderBrush="{x:Null}" BorderThickness="0" Background="{DynamicResource buttonBackground}" Foreground="{DynamicResource buttonForeground}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1127,10,0,0" Click="LogoutButton_Click" Height="27" Width="78"  >LOGOUT</Button>
         <TextBox x:Name="SearchDataGrid" FontSize="20" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="486,74,0,0" TextWrapping="Wrap" Text="Search..." BorderBrush="{x:Null}" BorderThickness="0" Background="{DynamicResource SearchBarBG}" Foreground="{DynamicResource SearchBarFG}" VerticalAlignment="Top" Width="626" Height="35" TextChanged="SearchDataGrid_TextChanged" />
-        <ComboBox x:Name="ColumnSizeComboBox" HorizontalAlignment="Left" Margin="1236,74,0,0" VerticalAlignment="Top" Width="50" Initialized="ColumnSizeComboBox_Initialized" SelectionChanged="ColumnSizeComboBox_SelectionChanged" Height="32"/>
+        <ComboBox Template="{DynamicResource ComboBoxTemplateColumns}"  x:Name="ColumnSizeComboBox" HorizontalAlignment="Left" Margin="1236,74,0,0" VerticalAlignment="Top" Width="50" Initialized="ColumnSizeComboBox_Initialized" SelectionChanged="ColumnSizeComboBox_SelectionChanged" Height="32"/>
 
         <DataGrid 
             x:Name="MainTable" 
@@ -214,13 +681,19 @@
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="2" BlurRadius="3" Opacity="0.2" Direction="270"/>
             </Border.Effect>
-            <ComboBox x:Name="TableComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" SelectionChanged="TableComboBox_SelectionChanged" Initialized="TableComboBox_Initialized" Height="35" />
+            <ComboBox Template="{DynamicResource ComboBoxTemplateTable}" FontSize="16" Foreground="{DynamicResource TextColour}" x:Name="TableComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" SelectionChanged="TableComboBox_SelectionChanged" Initialized="TableComboBox_Initialized" Height="35" />
         </Border>
-        <Border HorizontalAlignment="Left" Height="32" Margin="1127,74,0,0" VerticalAlignment="Top" Width="78">
+
+
+        <Border HorizontalAlignment="Left" Height="32" Margin="1127,74,0,0" VerticalAlignment="Top" Width="101">
+
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="2" BlurRadius="3" Opacity="0.2" Direction="270"/>
             </Border.Effect>
-            <ComboBox x:Name="ColumnsVisibilityComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="78" Height="32"/>
+
+            <ComboBox Template="{DynamicResource ComboBoxTemplateFilters}" Background="{DynamicResource comboBackground}"  x:Name="ColumnsVisibilityComboBox" Foreground="{DynamicResource TextColour}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="32">
+            </ComboBox>
         </Border>
+
     </Grid>
 </Page>
