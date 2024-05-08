@@ -628,12 +628,13 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
 
         <Button x:Name="LogoutButton" FontSize="18" BorderBrush="{x:Null}" BorderThickness="0" Background="{DynamicResource buttonBackground}" Foreground="{DynamicResource buttonForeground}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1127,10,0,0" Click="LogoutButton_Click" Height="27" Width="78"  >LOGOUT</Button>
         <TextBox x:Name="SearchDataGrid" FontSize="20" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="486,74,0,0" TextWrapping="Wrap" Text="Search..." BorderBrush="{x:Null}" BorderThickness="0" Background="{DynamicResource SearchBarBG}" Foreground="{DynamicResource SearchBarFG}" VerticalAlignment="Top" Width="626" Height="35" TextChanged="SearchDataGrid_TextChanged" />
-        <ComboBox Template="{DynamicResource ComboBoxTemplateColumns}"  x:Name="ColumnSizeComboBox" HorizontalAlignment="Left" Margin="1236,74,0,0" VerticalAlignment="Top" Width="50" Initialized="ColumnSizeComboBox_Initialized" SelectionChanged="ColumnSizeComboBox_SelectionChanged" Height="32"/>
+        <ComboBox Template="{DynamicResource ComboBoxTemplateColumns}" Foreground="{DynamicResource ButtonMainFG }"  x:Name="ColumnSizeComboBox" HorizontalAlignment="Left" Margin="1236,74,0,0" VerticalAlignment="Top" Width="50" Initialized="ColumnSizeComboBox_Initialized" SelectionChanged="ColumnSizeComboBox_SelectionChanged" Height="32"/>
 
         <DataGrid 
             x:Name="MainTable" 
             Template="{DynamicResource DataGridTemplate1}" 
             GridLinesVisibility="None"   
+            CanUserReorderColumns="False"
             RowBackground="{DynamicResource RowColour}"
             AlternatingRowBackground="{DynamicResource RowAColour}"
             Foreground="{DynamicResource TableText}"
@@ -659,7 +660,8 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
         <DataGrid 
             Template="{DynamicResource DataGridTemplate1}" 
             x:Name="SelectedTable" 
-            GridLinesVisibility="None"   
+            GridLinesVisibility="None"  
+            CanUserReorderColumns="False"
             FontSize="15"
             RowBackground="{DynamicResource RowColour}"
             AlternatingRowBackground="{DynamicResource RowAColour}"

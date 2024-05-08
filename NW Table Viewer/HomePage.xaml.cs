@@ -225,89 +225,45 @@ namespace NW_Table_Viewer
             string searchString = SearchDataGrid.Text;
             SqlConnection con = new SqlConnection();
             con.ConnectionString = ConfigurationManager.ConnectionStrings["Con"].ConnectionString;
-
             try
             {
                 con.Open();
-
-
                 SqlCommand cmd = new SqlCommand();
                 switch (TableComboBox.SelectedItem)
                 {
                     case "Employees":
-
-
-                        cmd.CommandText = @"SELECT *
-                        FROM [master].[dbo].[Employees]
-                        WHERE 
-                            [EmployeeID] LIKE @searchText OR 
-                            [LastName] LIKE @searchText OR 
-                            [FirstName] LIKE @searchText OR
-                            [Title] LIKE @searchText OR
-                            [TitleOfCourtesy] LIKE @searchText OR
-                            [BirthDate] LIKE @searchText OR
-                            [HireDate] LIKE @searchText OR
-                            [Address] LIKE @searchText OR
-                            [City] LIKE @searchText OR
-                            [Region] LIKE @searchText OR
-                            [PostalCode] LIKE @searchText OR
-                            [Country] LIKE @searchText OR
-                            [HomePhone] LIKE @searchText OR
-                            [Extension] LIKE @searchText OR
-                            [Photo] LIKE @searchText OR
-                            [Notes] LIKE @searchText OR
-                            [ReportsTo] LIKE @searchText OR
-                            [PhotoPath] LIKE @searchText";
+                        cmd.CommandText = @"SELECT * FROM [master].[dbo].[Employees] WHERE [EmployeeID] LIKE @searchText OR [FirstName] LIKE @searchText OR [LastName] LIKE @searchText";
                         cmd.Parameters.AddWithValue("@searchText", $"%{searchString}%");
                         cmd.Connection = con;
                         MainDataTable.Clear();
-
-
-
-
+                        
                         break;
-
-
-
                     case "Customers":
-
-
-                        cmd.CommandText = @"SELECT *
-                    FROM [master].[dbo].[Customers]
-                    WHERE 
-                        [CustomerID] LIKE @searchText OR 
-                        [CompanyName] LIKE @searchText OR 
-                        [ContactName] LIKE @searchText OR
-                        [ContactTitle] LIKE @searchText OR
-                        [Address] LIKE @searchText OR
-                        [City] LIKE @searchText OR
-                        [Region] LIKE @searchText OR
-                        [PostalCode] LIKE @searchText OR
-                        [Country] LIKE @searchText OR
-                        [Phone] LIKE @searchText OR
-                        [Fax] LIKE @searchText";
+                        cmd.CommandText = @"SELECT * FROM [master].[dbo].[Customers] WHERE [CustomerID] LIKE @searchText OR [CompanyName] LIKE @searchText OR [ContactName] LIKE @searchText";
                         cmd.Parameters.AddWithValue("@searchText", $"%{searchString}%");
                         cmd.Connection = con;
-
                         MainDataTable.Clear();
 
+                        break;
+                    case "Orders":
+                        cmd.CommandText = @"SELECT * FROM [master].[dbo].[Orders] WHERE [OrderID] LIKE @searchText OR [CustomerID] LIKE @searchText OR [EmployeeID] LIKE @searchText";
+                        cmd.Parameters.AddWithValue("@searchText", $"%{searchString}%");
+                        cmd.Connection = con;
+                        MainDataTable.Clear();
 
                         break;
+
                 }
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(MainDataTable);
-
             }
-
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                con.Close();
+                //MessageBox.Show(ex.Message);
             }
 
+
+            
         }
 
 
