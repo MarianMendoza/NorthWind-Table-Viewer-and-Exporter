@@ -11,6 +11,7 @@
       Title="HomePage">
     <Page.Resources>
 
+<!-- This is DataGrid Style -->
         <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -35,6 +36,8 @@
             </Setter>
         </Style>
 
+
+<!-- Table Combo Box -->
         <ControlTemplate x:Key="TableToggleButton">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -94,6 +97,8 @@
             </Grid>
 
         </ControlTemplate>
+
+        <!-- Combobox for columns visibility. -->
         <ControlTemplate x:Key="ComboBoxTemplateColumns" TargetType="{x:Type ComboBox}">
             <Grid>
                 <ToggleButton
@@ -102,7 +107,7 @@
               Focusable="false"
               IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
               ClickMode="Press">
-                    >
+                    
                 </ToggleButton>
                 <Popup 
           Name="Popup"
@@ -149,7 +154,7 @@
 
 
 
-
+<!-- Combobox template table -->
         <ControlTemplate x:Key="ComboBoxTemplateTable" TargetType="{x:Type ComboBox}">
             <Grid>
                 <ToggleButton Name="ToggleButton" Template="{StaticResource TableToggleButton}"
@@ -264,6 +269,7 @@
         </ControlTemplate>
 
 
+<!-- Combobox template filters -->
 
         <ControlTemplate x:Key="ComboBoxTemplateFilters" TargetType="{x:Type ComboBox}">
             <Grid>
@@ -318,6 +324,8 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+
+        <!-- Scroll bar style -->
 
         <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
             <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -496,7 +504,7 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
             </Style.Triggers>
         </Style>
 
-
+<!-- Datagrid template style -->
         <ControlTemplate x:Key="DataGridTemplate1" TargetType="{x:Type DataGrid}">
 
             <Border Background="{DynamicResource TableBG}" BorderBrush="{x:Null}" BorderThickness="0" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
@@ -626,10 +634,14 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
 
         <Image Source="/Resources/logo.png" HorizontalAlignment="Left" VerticalAlignment="Top" Height="74" Width="126" Margin="44,22,0,0" />
 
+<!-- Logout -->
         <Button x:Name="LogoutButton" FontSize="18" BorderBrush="{x:Null}" BorderThickness="0" Background="{DynamicResource buttonBackground}" Foreground="{DynamicResource buttonForeground}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1127,10,0,0" Click="LogoutButton_Click" Height="27" Width="78"  >LOGOUT</Button>
+        <!-- Search bar -->
         <TextBox x:Name="SearchDataGrid" FontSize="20" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="486,74,0,0" TextWrapping="Wrap" Text="Search..." BorderBrush="{x:Null}" BorderThickness="0" Background="{DynamicResource SearchBarBG}" Foreground="{DynamicResource SearchBarFG}" VerticalAlignment="Top" Width="626" Height="35" TextChanged="SearchDataGrid_TextChanged" />
+        <!-- Combo box for templates -->
         <ComboBox Template="{DynamicResource ComboBoxTemplateColumns}" Foreground="{DynamicResource ButtonMainFG }"  x:Name="ColumnSizeComboBox" HorizontalAlignment="Left" Margin="1236,74,0,0" VerticalAlignment="Top" Width="50" Initialized="ColumnSizeComboBox_Initialized" SelectionChanged="ColumnSizeComboBox_SelectionChanged" Height="32"/>
 
+<!-- Main data table this is where the data is displayed -->
         <DataGrid 
             x:Name="MainTable" 
             Template="{DynamicResource DataGridTemplate1}" 
@@ -648,14 +660,14 @@ Content="M 0 0 L 4 4 L 0 8 Z"/>
             ColumnWidth="*" 
             SelectionChanged="MainTable_SelectionChanged"/>
 
-
+<!-- Check box section -->
         <Label HorizontalAlignment="Left" FontSize="30" VerticalAlignment="Top" Foreground="{DynamicResource TextColour}" Margin="44,575,0,0">Selected Rows:</Label>
         <Label x:Name="CountLabel" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{DynamicResource TextColour}" Margin="244,576,0,0">0</Label>
         <CheckBox FontSize="14" x:Name="PdfCheck" Content=".PDF" HorizontalAlignment="Left" Margin="1061,590,0,0" VerticalAlignment="Top" Background="{DynamicResource CheckBoxBG}" Foreground="{DynamicResource ButtonMainFG}" BorderBrush="{x:Null}" BorderThickness="0"/>
         <CheckBox FontSize="14" x:Name="CSVCheck" Content=".CSV" HorizontalAlignment="Left" Margin="1110,590,0,0" VerticalAlignment="Top" Background="{DynamicResource CheckBoxBG}" Foreground="{DynamicResource ButtonMainFG}" BorderBrush="{x:Null}" BorderThickness="0"/>
         <CheckBox FontSize="14" x:Name="SelectCheck" Content="Select Whole Table" HorizontalAlignment="Left" Margin="1158,590,0,0" VerticalAlignment="Top" Checked="SelectCheck_Checked" Foreground="{DynamicResource ButtonMainFG}" Unchecked="SelectCheck_Unchecked" Background="{DynamicResource CheckBoxBG}" BorderBrush="{x:Null}" BorderThickness="0"/>
 
-
+<!-- Data grid selection -->
 
         <DataGrid 
             Template="{DynamicResource DataGridTemplate1}" 

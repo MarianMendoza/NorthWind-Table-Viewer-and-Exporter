@@ -43,6 +43,11 @@ namespace NW_Table_Viewer
 
         }
 
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="SelectedDatabase"></param>
         private void LoadData(string SelectedDatabase)
         {
             string query = "";

@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:NW_Table_Viewer"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-
+<!-- Light mode -->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Themes/lightmode.xaml"/>

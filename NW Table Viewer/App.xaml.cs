@@ -9,6 +9,12 @@ namespace NW_Table_Viewer
     /// </summary>
     internal class AppThemes
     {
+
+
+/// <summary>
+/// This is how themes are changed, looking in resource dictionary.
+/// </summary>
+/// <param name="theme"> In the Themes folder. These are resource dictionaries.</param>
         public static void ChangeTheme(Uri theme)
         {
             ResourceDictionary Theme = new ResourceDictionary() { Source = theme };
