@@ -29,11 +29,22 @@ namespace NW_Table_Viewer
             InitializeComponent();
         }
 
+
+        /// <summary>
+        /// NAvigates to registration page.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RegisterToButton_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new RegisterPage());
         }
 
+        /// <summary>
+        /// When the login is clicked, it checked the username and password to database, if credentials esits, navigate to homepage, else show label.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
 

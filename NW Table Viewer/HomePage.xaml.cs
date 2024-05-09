@@ -45,9 +45,9 @@ namespace NW_Table_Viewer
 
 
 /// <summary>
-/// 
+/// This will view whatever database depending on combo box selection. This will determine, query, colname, and colhidden.
 /// </summary>
-/// <param name="SelectedDatabase"></param>
+/// <param name="SelectedDatabase"> String input from comboboxtable</param>
         private void LoadData(string SelectedDatabase)
         {
             string query = "";
@@ -92,6 +92,12 @@ namespace NW_Table_Viewer
             MainTable.ItemsSource = MainDataTable.DefaultView;
         }
 
+
+        /// <summary>
+        /// This binds columns and hides columns based on the lists provided.
+        /// </summary>
+        /// <param name="ColNames">Columns added to the table, and chekcboxes in the filtercolumns</param>
+        /// <param name="ColHidden">Columns that should be hidden when switched views.</param>
         private void BindToDataTable(string[] ColNames, string[] ColHidden)
         {
             MainDataTable.Columns.Clear();
@@ -157,6 +163,12 @@ namespace NW_Table_Viewer
             }
         }
 
+
+        /// <summary>
+        /// If the box is checked it will show the column.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             string colName = "";
@@ -179,6 +191,11 @@ namespace NW_Table_Viewer
             }
         }
 
+        /// <summary>
+        /// If the checkbox is unchecked it will hide the column.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             string colName = "";
@@ -202,6 +219,11 @@ namespace NW_Table_Viewer
 
         }
 
+        /// <summary>
+        /// This will fill the table by connection to the database and making rows.
+        /// </summary>
+        /// <param name="query">Query that is provided above by loaddata.</param>
+
         private void getData(string query)
         {
             SqlConnection con = new SqlConnection();
@@ -217,6 +239,11 @@ namespace NW_Table_Viewer
             con.Close();
         }
 
+        /// <summary>
+        /// Adds items to tablecombobox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TableComboBox_Initialized(object sender, EventArgs e)
         {
             TableComboBox.Items.Add("Customers");
@@ -225,6 +252,11 @@ namespace NW_Table_Viewer
 
         } 
 
+        /// <summary>
+        /// This will allow us to search in the datatables based on the different table views.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SearchDataGrid_TextChanged(object sender, TextChangedEventArgs e)
         {
             string searchString = SearchDataGrid.Text;
@@ -273,7 +305,11 @@ namespace NW_Table_Viewer
 
 
 
-
+        /// <summary>
+        /// If the selection is changed loaddata.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void TableComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -289,10 +325,22 @@ namespace NW_Table_Viewer
                 Debug.WriteLine("Test");
             }
         }
+
+        /// <summary>
+        /// If the logout button is pressed then the user is returned to the login page.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new LoginPage());
         }
+
+        /// <summary>
+        /// Row selection, adding items into the selected datatable to view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void MainTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -330,6 +378,11 @@ namespace NW_Table_Viewer
 
         }
 
+        /// <summary>
+        /// If the export button is clicked, then export the items in the selected table, check if pdf, or csv, if all check is selected export main table else, use SelectedDataTable.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
             DataTable SelectedDataTable = MainDataTable.Clone();
@@ -369,6 +422,10 @@ namespace NW_Table_Viewer
         }
 
 
+        /// <summary>
+        /// This allows us to export to pdf with iTextSharp
+        /// </summary>
+        /// <param name="DataTable">This is determined on wether the allcheck button is checked or not, Options are MainDataTable, or SelectedDataTable</param>
         private void ExportPdfTable(DataTable DataTable)
 
 
@@ -429,6 +486,11 @@ namespace NW_Table_Viewer
             }
         }
 
+
+        /// <summary>
+        /// Exports to csv
+        /// </summary>
+        /// <param name="datatable">This is determined in the export button click, checked if allselect is checked or not. Options are MainDataTable, or SelectedDataTable</param>
         private void ExportCSVTable(DataTable datatable)
         {
 
@@ -455,16 +517,32 @@ namespace NW_Table_Viewer
             }
         }
 
+        /// <summary>
+        /// If the select check is checked, then select whole table
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectCheck_Checked(object sender, RoutedEventArgs e)
         {
             MainTable.SelectAll();
         }
 
+
+        /// <summary>
+        /// If the select check is unselected then unselect.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectCheck_Unchecked(object sender, RoutedEventArgs e)
         {
             MainTable.UnselectAll();
         }
 
+        /// <summary>
+        /// Add items in ColumnSizeComboBox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ColumnSizeComboBox_Initialized(object sender, EventArgs e)
         {
             ColumnSizeComboBox.Items.Add("1");
@@ -475,6 +553,11 @@ namespace NW_Table_Viewer
 
         }
 
+        /// <summary>
+        /// Based on ColumSizeComboBox selection, then change the table height and font size.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ColumnSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedColumnSize = ColumnSizeComboBox.SelectedIndex + 1;

@@ -29,11 +29,23 @@ namespace NW_Table_Viewer
             InitializeComponent();
         }
 
+
+        /// <summary>
+        /// Goes into login page if button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LoginToButton_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new LoginPage());
         }
 
+
+        /// <summary>
+        /// When the register button is clicked it checks the database to see if the username exists already, if it does, error message. Also checks that fields are not null.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RegisterAccountButton_Click(object sender, RoutedEventArgs e)
         {
             try
